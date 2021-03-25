@@ -117,7 +117,7 @@ function stop_members_from_renewing($okay)
 add_filter('pmpro_registration_checks', 'stop_members_from_renewing', 10, 1);
 
 function before_change_membership_level( $level_id, $user_id, $old_levels, $cancel_level ) {
-    if (PMPro_Alveoles::is_with_commitment($cancel_level)){
+    if ($cancel_level && PMPro_Alveoles::is_with_commitment($cancel_level)){
         if (PMPro_Alveoles::contracted($cancel_level)){ //still engaged
             wp_redirect( pmpro_url("cancel",'levelstocancel='.$cancel_level.'&pmpro_error_contracted='.$cancel_level),302 );
             exit;
@@ -182,3 +182,12 @@ function pmpro_aveoles_member_action_links($links)
     return $links;
 }
 add_filter('pmpro_member_action_links','pmpro_aveoles_member_action_links',10,1);
+
+
+function pmpro_alveoles_url($url, $page, $querystring, $scheme){
+    if ($page == 'member_profile_edit' && function_exists('bp_loggedin_user_domain')){
+        return bp_loggedin_user_domain() . bp_get_profile_slug() . '/edit';
+    }
+    return $url;
+}
+add_filter( 'pmpro_url', 'pmpro_alveoles_url', 10, 4 );
