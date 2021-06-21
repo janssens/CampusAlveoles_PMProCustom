@@ -11,7 +11,7 @@ Author URI: https://www.paidmembershipspro.com
 class PMPro_Alveoles {
 
     // key level_id, value durée engagement DateInterval format
-    const COMMITMENT = [ '6' => 'P1Y' ];
+    const COMMITMENT = [ '6' => 'P1Y' , '9' => 'P1Y'];
 
     /**
      * @param $level_id
